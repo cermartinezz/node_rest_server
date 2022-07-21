@@ -10,6 +10,8 @@ const {
         usuarioDelete 
       } = require('../controllers/users');
 const { roleExist, emailExist, userExist } = require('../helpers/validators');
+const { validateToken } = require('../middlewares/validateJwt');
+const { isAdmin, hasRole } = require('../middlewares/validateRol');
 
 
 const router = Router();
@@ -36,6 +38,9 @@ router.put('/:id',[
 
 router.delete('/:id',
 [
+  validateToken,
+  // isAdmin,
+  hasRole('ADMIN_ROLE','SALES_ROLE'),
   check('id','Not a valid id').isMongoId(),
   check('id').custom(userExist),
   validateFields

@@ -8,10 +8,9 @@ const {
         usuarioPost, 
         usuarioPut, 
         usuarioDelete 
-      } = require('../controllers/users');
+      } = require('../controllers/userController');
 const { roleExist, emailExist, userExist } = require('../helpers/validators');
-const { validateToken } = require('../middlewares/validateJwt');
-const { isAdmin, hasRole } = require('../middlewares/validateRol');
+const { validateToken, hasRole, isAdmin } = require('../middlewares');
 
 
 const router = Router();
@@ -20,6 +19,7 @@ const router = Router();
 router.get('/', usuariosGet)
 
 router.post('/', [
+  validateToken,
   check('name', 'The name is mandatory').notEmpty(),
   check('password', 'The password is mandatory').notEmpty(),
   check('password', 'The password must have more than 6 letters').isLength(6),
@@ -31,6 +31,7 @@ router.post('/', [
 ], usuarioPost)
 
 router.put('/:id',[
+  validateToken,
   check('id','Not a valid id').isMongoId(),
   check('id').custom(userExist),
   validateFields
@@ -39,7 +40,7 @@ router.put('/:id',[
 router.delete('/:id',
 [
   validateToken,
-  // isAdmin,
+  isAdmin,
   hasRole('ADMIN_ROLE','SALES_ROLE'),
   check('id','Not a valid id').isMongoId(),
   check('id').custom(userExist),

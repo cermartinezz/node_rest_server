@@ -46,7 +46,7 @@ const usuarioPut = async (req, res = response) => {
     data.password = bcrypt.hashSync(password,salt);
   }
 
-  const user = await User.findByIdAndUpdate(id, data);
+  const user = await User.findByIdAndUpdate(id, data, {new: true});
 
   res.json({
     user
@@ -58,7 +58,6 @@ const usuarioPut = async (req, res = response) => {
 const usuarioDelete = async (req = request, res = response) => {
 
   const {id} = req.params
-  console.log(id);
 
   const user = await User.findByIdAndUpdate(id, {status:false}, {new: true});
   const authUser = req.authUser;

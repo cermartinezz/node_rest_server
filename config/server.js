@@ -6,8 +6,12 @@ class Server {
   constructor () {
     this.app = express();
     this.port = process.env.PORT
-    this.auth_routes = '/api/auth';
-    this.user_routes = '/api/users';
+
+    this.routes = {
+      auth: '/api/auth',
+      users: '/api/users',
+      categories: '/api/categories'
+    }
 
     this.databaseConnect();
 
@@ -16,7 +20,7 @@ class Server {
 
 
     // Routes
-    this.routes();
+    this.registerRoutes();
   }
 
   async databaseConnect() {
@@ -29,9 +33,10 @@ class Server {
     this.app.use(express.json());
   }
 
-  routes () {
-    this.app.use(this.auth_routes, require('../routes/auth'))
-    this.app.use(this.user_routes, require('../routes/users'))
+  registerRoutes () {
+    this.app.use(this.routes.auth, require('../routes/authRoutes'))
+    this.app.use(this.routes.users, require('../routes/usersRoutes'))
+    this.app.use(this.routes.categories, require('../routes/categoryRoutes'))
   }
 
   listen(){

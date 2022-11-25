@@ -6,8 +6,7 @@ const User = require('../models/users')
 
 const validateToken = async (req = request, res, next) => {
 
-  const token = req.header('x-token')
-  console.log(token)
+  const token = req.headers.authorization.split(" ")[1]
 
   if(!token){
     return res.status(401).json({msj: "token is needed"})

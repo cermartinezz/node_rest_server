@@ -1,7 +1,8 @@
 const { 
   Category,
   Role, 
-  User 
+  User,
+  Product
 } = require('../models');
 
 
@@ -17,7 +18,7 @@ const emailExist = async (email = '') => {
   if(userExist){ 
     throw new Error(`The email ${email} is already taken` );
   }
-}
+  }
 
 const userExist = async (id = '') => {
   const userExist = await User.findById(id)
@@ -33,9 +34,17 @@ const categoryExist = async (id = '') => {
   }
 }
 
+const productExist = async (id = '') => {
+  const productExist = await Product.findById(id)
+  if(!productExist){ 
+    throw new Error(`There is not product with id ${id}` );
+  }
+}
+
 module.exports = {
   roleExist,
   emailExist,
   userExist,
-  categoryExist
+  categoryExist,
+  productExist,
 }

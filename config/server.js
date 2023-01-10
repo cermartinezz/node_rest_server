@@ -11,7 +11,8 @@ class Server {
       auth: '/api/auth',
       users: '/api/users',
       categories: '/api/categories',
-      products: '/api/products'
+      products: '/api/products',
+      search: '/api/search',
     }
 
     this.databaseConnect();
@@ -39,6 +40,7 @@ class Server {
     this.app.use(this.routes.users, require('../routes/usersRoutes'))
     this.app.use(this.routes.categories, require('../routes/categoryRoutes'))
     this.app.use(this.routes.products, require('../routes/productRoutes'))
+    this.app.use(this.routes.search, require('../routes/searchRoutes'))
   }
 
   listen(){

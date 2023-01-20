@@ -8,6 +8,8 @@ const connection = async () => {
       useUnifiedTopology: true
     });
 
+    await mongoose.set('strictQuery', true);
+
     console.log('BD connected')
 
   } catch (error) {
